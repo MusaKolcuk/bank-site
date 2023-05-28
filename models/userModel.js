@@ -23,6 +23,12 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Please provide a password"],
         select: false,                                              //select false yapmamizin sebebi eger getAllUsers diye bir fonksiyon tanimlarsak password alanimizin degerinin gorulmemesi icin.
     },
+    accounts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Account",
+        },
+    ],
     createdAt: {
         type: Date,
         default: Date.now,
@@ -51,21 +57,6 @@ UserSchema.methods.generateJwtFromUser = function() {
 };
 
 
-// // Bu fonksiyon ile kullanici girdigi passwordun hashlenmesi saglandi.
-// UserSchema.methods.getResetPasswordTokenFromUser = function() {      //reset password token olusturmak icin fonksiyon tanimladik.
-//     const randomHexString = crypto.randomBytes(15).toString("hex");  //random hexadecimal string olusturduk. (15 byte)  (crypto modulu ile)  (toString ile hexadecimal stringe cevirdik).
-//     const { RESET_PASSWORD_EXPIRE } = process.env;                   //env dosyasindan reset password expire degerini aldik.
-
-//     const resetPasswordToken = crypto
-//         .createHash("SHA256")
-//         .update(randomHexString)
-//         .digest("hex");                                             //digest ile hexadecimal stringe cevirdik.
-
-//     this.resetPasswordToken = resetPasswordToken;                   //resetPasswordToken degiskenini user modeline ekledik.
-//     this.resetPasswordExpire = Date.now() + parseInt(RESET_PASSWORD_EXPIRE);         //1 saat sonra tokenin gecerliligi sona erecek.
-
-//     return resetPasswordToken;
-// };
 
 // Pre Hooks
 

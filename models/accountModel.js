@@ -6,6 +6,11 @@ const AccountSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
+    accountType: {
+        type: String,
+        enum: ["vadesiz", "vadeli"],
+        required: true,
+    },
     balance: {
         type: Number,
         default: 0,

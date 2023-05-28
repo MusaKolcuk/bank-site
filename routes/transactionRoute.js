@@ -1,11 +1,11 @@
 const express = require("express");
-const { getAccessToRoute } = require("../middlewares/authorization/auth");
-const { createTransaction, getTransactions } = require("../controllers/transcationController");
+const { deposit, withdraw } = require("../controllers/transcationController");
+const { getAccessToRoute,  } = require("../middlewares/authorization/auth");
+
 
 const router = express.Router();
 
-router.post("/create", getAccessToRoute, createTransaction);
-router.get("/:accountId", getAccessToRoute, getTransactions);
+router.post("/:accountId/deposit", getAccessToRoute, deposit);
+router.post("/:accountId/withdraw", getAccessToRoute, withdraw);
 
 module.exports = router;
-

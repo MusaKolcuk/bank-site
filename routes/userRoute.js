@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/create", createUser);
 router.get("/", getAllUsers);
 router.get("/:id", checkUserExist, getSingleUser);
-router.put("/:id", checkUserExist, updateUser);
+router.put("/:id", checkUserExist, getAccessToRoute, updateUser);
 router.delete("/:id", checkUserExist, deleteUser);
 
 

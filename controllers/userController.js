@@ -11,7 +11,8 @@ const createUser = asyncErrorWrapper(async (req, res, next) => {
         name,
         email,
         password,
-        role
+        role,
+        accounts: []
     });
 
     sendJwtToClient (user, res);                //kullanici olusturuldugunda otomatik olarak token olusturulur ve kullaniciya gonderilir.
@@ -35,13 +36,12 @@ const deleteUser = asyncErrorWrapper(async(req, res, next) => {
 const updateUser = asyncErrorWrapper(async(req, res, next) => {
 
     const {id} = req.params;
-    const {name, email, role} = req.body;
+    const {name, email} = req.body;
 
     let user = await User.findById(id);
 
     user.name = name;
     user.email = email;
-    user.role = role;
 
     await user.save();
 

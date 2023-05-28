@@ -4,32 +4,79 @@ const asyncErrorWrapper = require("express-async-handler");
 const Account= require("../models/accountModel");
 const Transaction = require("../models/transactionModel");
 
-// Yeni işlem oluşturma
-const createTransaction = asyncErrorWrapper(async (req, res, next) => {
-  const { account, type, amount } = req.body;
-
-  const transaction = await Transaction.create({
-    account,
-    type,
-    amount,
-  });
-
-  res.status(201).json({
-    success: true,
-    data: transaction,
-  });
-});
-
-// İşlemleri getirme
-const getTransactions = asyncErrorWrapper(async (req, res, next) => {
+// Para yatırma işlemi
+const deposit = asyncErrorWrapper(async (req, res, next) => {
   const { accountId } = req.params;
+  const { amount, accountType } = req.body;
 
-  const transactions = await Transaction.find({ account: accountId });
+  const account = await Account.findById(accountId);
+  if (!account) {
+      return res
+          .status(404)
+          .json({ success: false, error: "Account not found" });
+  }
 
-  res.status(200).json({
-    success: true,
-    data: transactions,
+  if (account.accountType !== accountType) {
+      return res
+          .status(400)
+          .json({ success: false, error: "Invalid account type" });
+  }
+
+  let updatedBalance = account.balance + amount;
+
+  account.balance = updatedBalance;
+  await account.save();
+
+  // İşlem kaydı oluşturma
+  const transaction = await Transaction.create({
+      account: accountId,
+      type: "deposit",
+      amount,
   });
+
+  res.status(200).json({ success: true, data: account });
 });
 
-module.exports = { createTransaction, getTransactions };
+// Para çekme işlemi
+const withdraw = asyncErrorWrapper(async (req, res, next) => {
+  const { accountId } = req.params;
+  const { amount, accountType } = req.body;
+
+  const account = await Account.findById(accountId);
+  if (!account) {
+      return res
+          .status(404)
+          .json({ success: false, error: "Account not found" });
+  }
+
+  if (account.accountType !== accountType) {
+      return res
+          .status(400)
+          .json({ success: false, error: "Invalid account type" });
+  }
+
+  if (account.balance < amount) {
+      return res
+          .status(400)
+          .json({ success: false, error: "Insufficient balance" });
+  }
+
+  let updatedBalance = account.balance - amount;
+
+  account.balance = updatedBalance;
+  await account.save();
+
+  // İşlem kaydı oluşturma
+  const transaction = await Transaction.create({
+      account: accountId,
+      type: "withdraw",
+      amount,
+  });
+
+  res.status(200).json({ success: true, data: account });
+});
+
+module.exports = {
+  deposit,
+  withdraw,
+};
