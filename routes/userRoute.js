@@ -5,7 +5,7 @@ const { getAccessToRoute } = require("../middlewares/authorization/auth.js");
 
 const router = express.Router();
 
-router.post("/", createUser);
+router.post("/create", createUser);
 router.get("/", getAllUsers);
 router.get("/:id", checkUserExist, getSingleUser);
 router.put("/:id", checkUserExist, updateUser);

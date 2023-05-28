@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const CustomError = require("../helpers/error/CustomError");
 const asyncErrorWrapper = require("express-async-handler");
-
+const {sendJwtToClient} = require("../helpers/authorization/tokenHelpers");
 
 const createUser = asyncErrorWrapper(async (req, res, next) => {
 
@@ -55,8 +55,8 @@ const updateUser = asyncErrorWrapper(async(req, res, next) => {
 
 const getSingleUser = asyncErrorWrapper(async (req, res, next) => {
 
-    const {id} = req.params;                                                                //id bilgisi url'den alinir.
-    const user = await User.findById(id);                                                   //id bilgisi ile kullanici bilgileri alinir.
+    const {id} = req.params;
+    const user = await User.findById(id);
 
     return res.status(200)
     .json({
@@ -66,7 +66,7 @@ const getSingleUser = asyncErrorWrapper(async (req, res, next) => {
 });
 
 const getAllUsers = asyncErrorWrapper(async (req, res, next) => {
-    const users = await User.find();                                                        //tum kullanici bilgileri alinir.
+    const users = await User.find();
 
     return res.status(200)
     .json({

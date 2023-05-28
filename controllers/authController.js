@@ -6,7 +6,7 @@ const {validateUserInput, comparePassword} = require("../helpers/input/inputHelp
 
 
 
-const login = asyncErrorWrapper(async (req, res, next) => {         //kullanici login oldugunda token olusturulur ve kullaniciya gonderilir.
+const login = asyncErrorWrapper(async (req, res, next) => {                         //kullanici login oldugunda token olusturulur ve kullaniciya gonderilir.
     const{email, password} = req.body;
 
     if(!validateUserInput(email,password)) {

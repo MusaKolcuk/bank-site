@@ -30,10 +30,6 @@ const UserSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
     },
-    blocked: {                                                      //admin isterse bazi kullanicilarin hesaplarini bloke edebilir.
-        type: Boolean,
-        default: false,
-    },
 });
 
 // UserSchema methods
