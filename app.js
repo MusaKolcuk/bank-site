@@ -2,38 +2,58 @@ const mongoose = require("mongoose");
 const express = require("express");
 const dotenv = require("dotenv");
 const customErrorHandler = require("./middlewares/errors/customErrorHandler");
-const path = require("path");                                                           // bu modul ile dosya yollarini daha kolay bir sekilde yazabiliriz.
+const path = require("path");
 const connectDatabase = require("./helpers/database/connectDatabase");
+const http = require('http');
+const fs = require('fs');
+const cors = require('cors');
 
-const routes = require("./routes/indexRoute.js");
+// Routers
+const indexRoute = require("./routes/indexRoute.js");
 
-//Environment Variables
-
+// Environment Variables
 dotenv.config({
-    path: "./config/.env"
+  path: "./config/.env"
 });
 
-//MongoDb Connection
-
+// MongoDb Connection
 connectDatabase();
 
 const app = express();
 
-//Express - Body Middleware
+// CORS
+app.use(cors());
+
+const server = http.createServer(app);
+
+// Express - Body Middleware
 app.use(express.json());
 
 const PORT = process.env.PORT;
 
+// Routers Middlewares
+app.use("/api", indexRoute);
 
-//Routers Middlewares
-app.use("/api",routes);
-
-//Error Handler
-
+// Error Handler
 app.use(customErrorHandler);
 
+app.use(express.static(path.join(__dirname, 'public')));
 
+// Serve index.html file
+app.get('/', (req, res) => {
+  const filePath = path.join(__dirname, 'public', 'index.html');
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.end('Internal server error');
+    } else {
+      res.setHeader('Content-Type', 'text/html');
+      res.statusCode = 200;
+      res.end(data);
+    }
+  });
+});
 
-app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`);
-})
+server.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+});

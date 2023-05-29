@@ -11,13 +11,13 @@ const createAccount = asyncErrorWrapper(async (req, res, next) => {
 
     const account = await Account.create({ user: userId, accountType });
 
-    // Kullanıcı modelindeki accounts alanını güncelleme
+// Kullanıcı modelindeki accounts alanını güncelleme
     await User.findByIdAndUpdate(userId, { $push: { accounts: account._id } });
 
     res.status(201).json({ success: true, data: account });
 });
 
-  // Hesap bilgilerini getirme
+1// Hesap bilgilerini getirme
 const getAccount = asyncErrorWrapper(async (req, res, next) => {
     const { accountId } = req.params;
     const account = await Account.findById(accountId).populate("user");

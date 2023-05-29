@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href= "/public/style.css">
+    <title>Kullanıcı Girişi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            margin-bottom: 20px;
+        }
+        .container input[type=text],
+        .container input[type=password] {
+            width: 200px;
+            padding: 6px;
+        }
+        .container button {
+            padding: 6px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kullanıcı Girişi</h1>
+
+    <div class="container">
+        <label for="email">Email:</label>
+        <input type="text" id="email">
+    </div>
+
+    <div class="container">
+        <label for="password">Parola:</label>
+        <input type="password" id="password">
+    </div>
+
+    <div class="container">
+        <button onclick="login()">Giriş Yap</button>
+    </div>
+    <div id="message"></div>
+
+<script src="/public/script.js"></script>
+</body>
+</html>
