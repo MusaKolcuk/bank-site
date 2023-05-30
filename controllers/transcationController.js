@@ -76,7 +76,27 @@ const withdraw = asyncErrorWrapper(async (req, res, next) => {
     res.status(200).json({ success: true, data: account });
     });
 
+
+// Hesap hareketlerini getirme
+    const getTransactions = asyncErrorWrapper(async (req, res, next) => {
+        const { accountId } = req.params;
+        const transactions = await Transaction.find({ account: accountId });
+        res.status(200).json({ success: true, data: transactions });
+    });
+
+
+// Tüm işlemleri silme
+const deleteAllTransactions = asyncErrorWrapper(async (req, res, next) => {
+    const { accountId } = req.params;
+    const transactions = await Transaction.deleteMany({ account: accountId });
+    res.status(200).json({ success: true, data: transactions });
+});
+
+
+
     module.exports = {
     deposit,
     withdraw,
+    getTransactions,
+    deleteAllTransactions,
 };

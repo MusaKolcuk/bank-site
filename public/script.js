@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-// Banka hesap bilgilerini burada ayarlayın veya bir API'den alın
 var accountType;
-let balance;
 
   // Hesap bilgilerini HTML'e yerleştirme
     document.getElementById("accountType").value = accountType;
@@ -17,7 +15,6 @@ function withdraw() {
     return;
 }
 
-  // Backend'e para çekme isteği gönderme kodu buraya gelecek
 
   // Başarılı işlem durumunda hesap bilgilerini güncelleme
     balance -= amount;
@@ -43,22 +40,10 @@ function deposit() {
         return;
     }
 
-// Backend'e para yatırma isteği gönderme kodu buraya gelecek
-
 // Başarılı işlem durumunda hesap bilgilerini güncelleme
     balance += amount;
-    document.getElementById("balance").value = balance;
+    document.getElementById("balance").value = balance
 
-// Hesap hareketlerine yeni yatırım işlemini eklemek için tabloyu güncelleme
-    const transactionTable = document.getElementById("transactionTable");
-    const row = transactionTable.insertRow(-1);
-    const dateCell = row.insertCell(0);
-    const descriptionCell = row.insertCell(1);
-    const amountCell = row.insertCell(2);
-    const currentDate = new Date().toLocaleDateString();
-    dateCell.innerHTML = currentDate;
-    descriptionCell.innerHTML = "Para Yatırma";
-    amountCell.innerHTML = "+" + amount.toFixed(2);
 }
 
 // Kullanıcı bilgileri
@@ -223,3 +208,48 @@ function withdraw() {
     });
 }
 
+// Hesap hareketlerini listeleme
+
+function getTransactions() {
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const account = JSON.parse(localStorage.getItem("account"));
+    const token = localStorage.getItem("token");
+    console.log('User: id'+user.id);
+    console.log('Account: id'+account._id);
+    fetch(`http://localhost:5050/api/transactions/${account._id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer: ${token}`
+        },
+    })
+    .then(function (response) {
+        if (response.ok) {
+            console.log('Response');
+
+            return response.json();
+
+        } else {
+            throw new Error("Hesap hareketleri alınamadı.");
+        }
+    }
+    )
+    .then(function (data) {
+        var table = document.getElementById("transactionTable");
+        var data = data.data.forEach(e =>
+            table.innerHTML+= `
+            <tr>
+            <td>${e.timestamp.split("T")[0]}</td>
+            <td>${e.account + " - numaralı hesaptan işlem yapıldı "}</td>
+            <td>${e.amount}</td>
+            </tr>
+        `);
+
+    })
+    .catch(function (error) {
+        console.log(error);
+        // document.getElementById("message").innerHTML = `<h1>${error}<h1/>`;
+    });
+    }
+    getTransactions();

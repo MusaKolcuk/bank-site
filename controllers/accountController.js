@@ -30,7 +30,4 @@ const getAccount = asyncErrorWrapper(async (req, res, next) => {
 });
 
 
-
-
-
 module.exports = { createAccount, getAccount, };
