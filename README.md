@@ -42,4 +42,15 @@ npm start
 
 
 
+![Ekran görüntüsü 2023-05-30 150905](https://github.com/MusaKolcuk/bank-site/assets/82619526/57b72f89-9415-47b2-a2d8-8c39b154b5fc)
+
+![Ekran görüntüsü 2023-05-30 151042](https://github.com/MusaKolcuk/bank-site/assets/82619526/a6bdf527-3403-4c15-85ed-5a496f37a186)
+
+
+
+
+
+
+
+
 
