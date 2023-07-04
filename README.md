@@ -34,7 +34,6 @@ npm start
 - Oturum açmak için, web sitesinin ana sayfasında bulunan "Giriş Yap" düğmesini tıklayın
 - Oturum açmak için, kullanıcı adı ve şifre kısmına veri tabanında kayıtlı olan kullanıcı hesaplarından birini yazın ve "Giriş Yap" düğmesine tıklayın.
 - Kayıtlı kullanıcı hesapları: 
-- email: fatihErol@gmail.com -- Parola: 123321
 - email: musa@gmail.com -- Parola: 123321
 - Para çekmek için, "Para Çek" düğmesini tıklayın ve gerekli bilgileri girin.
 - Para yatırmak için, "Para Yatır" düğmesini tıklayın ve gerekli bilgileri girin.
